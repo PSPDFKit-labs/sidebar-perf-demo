@@ -12,15 +12,26 @@ export default function App() {
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
   const [documentPath, setDocumentPath] = useState(null);
+  const [isLibraryLoaded, setIsLibraryLoaded] = useState(false);
 
+  // Load the NutrientViewer library on mount
   useEffect(() => {
-    if (!documentPath) return;
+    (async () => {
+      if (!NutrientViewer) {
+        NutrientViewer = await import("@nutrient-sdk/viewer");
+
+        NutrientViewer.preloadWorker({ baseUrl: window.location.origin + "/", processorEngine: NutrientViewer.ProcessorEngine.fasterProcessing });
+      }
+      setIsLibraryLoaded(true);
+    })();
+  }, []);
+
+  // Load document when path changes
+  useEffect(() => {
+    if (!documentPath || !isLibraryLoaded) return;
 
     (async () => {
       const container = containerRef.current;
-      if (!NutrientViewer) {
-        NutrientViewer = await import("@nutrient-sdk/viewer");
-      }
 
       if (container) {
         // Unload previous instance if it exists
@@ -39,16 +50,12 @@ export default function App() {
       const container = containerRef.current;
       NutrientViewer?.unload(container);
     };
-  }, [documentPath]);
+  }, [documentPath, isLibraryLoaded]);
 
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
-    if (file && file.type === "application/pdf") {
-      const objectUrl = URL.createObjectURL(file);
-      setDocumentPath(objectUrl);
-    } else {
-      alert("Please select a PDF file");
-    }
+    const objectUrl = URL.createObjectURL(file);
+    setDocumentPath(objectUrl);
   };
 
   const handleButtonClick = () => {

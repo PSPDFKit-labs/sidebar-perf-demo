@@ -17,8 +17,7 @@ Are you [evaluating our SDK](https://www.nutrient.io/try/)? That's great, we're 
 Clone the repo:
 
 ```bash
-git clone https://github.com/PSPDFKit/nutrient-web-examples
-cd nutrient-web-examples/examples/nextjs
+git clone https://github.com/PSPDFKit-labs/sidebar-perf-demo
 ```
 
 Install the project dependencies:

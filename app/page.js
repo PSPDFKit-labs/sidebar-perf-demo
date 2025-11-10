@@ -11,9 +11,11 @@ let NutrientViewer;
 export default function App() {
   const containerRef = useRef(null);
   const fileInputRef = useRef(null);
-  const [documentPath, setDocumentPath] = useState("/example.pdf");
+  const [documentPath, setDocumentPath] = useState(null);
 
   useEffect(() => {
+    if (!documentPath) return;
+
     (async () => {
       const container = containerRef.current;
       if (!NutrientViewer) {
@@ -23,7 +25,7 @@ export default function App() {
       if (container) {
         // Unload previous instance if it exists
         NutrientViewer?.unload(container);
-        
+
         // Load new document
         NutrientViewer.load({
           container,
@@ -92,7 +94,7 @@ export default function App() {
           onMouseOver={(e) => (e.target.style.backgroundColor = "#0051cc")}
           onMouseOut={(e) => (e.target.style.backgroundColor = "#0070f3")}
         >
-          Change File
+          {documentPath ? "Change File" : "Select PDF File"}
         </button>
         <input
           ref={fileInputRef}
@@ -101,7 +103,31 @@ export default function App() {
           style={{ display: "none" }}
         />
       </header>
-      <div ref={containerRef} style={{ height: "calc(100vh - 60px)" }} />
+      <div
+        ref={containerRef}
+        style={{
+          height: "calc(100vh - 60px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#f9fafb",
+        }}
+      >
+        {!documentPath && (
+          <div
+            style={{
+              textAlign: "center",
+              color: "#6b7280",
+              fontSize: "18px",
+            }}
+          >
+            <p style={{ marginBottom: "10px" }}>No PDF selected</p>
+            <p style={{ fontSize: "14px" }}>
+              Click "Select PDF File" above to choose a PDF to view
+            </p>
+          </div>
+        )}
+      </div>
       <style global jsx>
         {`
           * {

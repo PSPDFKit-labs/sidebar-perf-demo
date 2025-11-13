@@ -1,5 +1,7 @@
 # Nutrient Web SDK Example – Angular
 
+> This example is deployed at https://nutrient-web-example-angular.vercel.app/
+
 This example shows how to integrate [Nutrient Web SDK](https://www.nutrient.io/web/) into an [Angular](https://angular.dev) app.
 
 ## Prerequisites

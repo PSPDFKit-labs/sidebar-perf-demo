@@ -6,6 +6,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import NutrientViewer from "@nutrient-sdk/viewer";
 
 @Component({
   selector: "app-root",
@@ -19,22 +20,14 @@ export class AppComponent implements OnInit, OnDestroy {
   fileInputRef!: ElementRef<HTMLInputElement>;
 
   documentPath: string | null = null;
-  private NutrientViewer: any;
   private instance: any;
 
   async ngOnInit() {
     try {
-      this.NutrientViewer = await import("@nutrient-sdk/viewer");
-
-      if (!this.NutrientViewer) {
-        console.error("NutrientViewer is undefined after import!");
-        return;
-      }
-
-      // Preload worker for better performance
-      this.NutrientViewer.preloadWorker({
+      // @ts-expect-error
+      await NutrientViewer.preloadWorker({
         baseUrl: `${window.location.origin}/`,
-        processorEngine: this.NutrientViewer.ProcessorEngine.fasterProcessing,
+        processorEngine: NutrientViewer.ProcessorEngine.fasterProcessing,
       });
     } catch (error) {
       console.error("Error loading Nutrient SDK:", error);
@@ -43,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.instance) {
-      this.NutrientViewer?.unload("#pspdfkit-container");
+      NutrientViewer?.unload("#pspdfkit-container");
     }
   }
 
@@ -61,12 +54,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
       // Unload previous instance if exists
       if (this.instance) {
-        await this.NutrientViewer.unload("#pspdfkit-container");
+        await NutrientViewer.unload("#pspdfkit-container");
       }
 
       // Load new document
       try {
-        this.instance = await this.NutrientViewer.load({
+        this.instance = await NutrientViewer.load({
           container: "#pspdfkit-container",
           baseUrl: `${window.location.origin}/`,
           document: this.documentPath,

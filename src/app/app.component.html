@@ -1,0 +1,22 @@
+<header class="header">
+    <h1 class="title">PDF Viewer</h1>
+    <button class="select-button" (click)="handleButtonClick()">
+        {{ documentPath ? "Change File" : "Select PDF File" }}
+    </button>
+    <input
+        #fileInput
+        type="file"
+        (change)="handleFileChange($event)"
+        style="display: none"
+    />
+</header>
+
+<div class="container">
+    <div *ngIf="!documentPath" class="placeholder">
+        <p class="placeholder-title">No PDF selected</p>
+        <p class="placeholder-subtitle">
+            Click "Select PDF File" above to choose a PDF to view
+        </p>
+    </div>
+    <div id="pspdfkit-container"></div>
+</div>

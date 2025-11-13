@@ -1,6 +1,6 @@
-# Nutrient Web SDK Example – Next.js
+# Nutrient Web SDK Example – Angular
 
-This example shows how to integrate [Nutrient Web SDK](https://www.nutrient.io/web/) into a [Next.js](https://nextjs.org) app.
+This example shows how to integrate [Nutrient Web SDK](https://www.nutrient.io/web/) into an [Angular](https://angular.dev) app.
 
 ## Prerequisites
 
@@ -34,7 +34,7 @@ We are ready to launch the app! 🎉
 npm run dev
 ```
 
-You can now open http://localhost:3000 in your browser and enjoy!
+You can now open http://localhost:4200 in your browser and enjoy!
 
 ## License
 
